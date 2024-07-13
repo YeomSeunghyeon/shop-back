@@ -44,9 +44,9 @@ router.post("/join",(req,res)=>{
         }
     })
 })
-router.get("/list",(req,res)=>{
-const menu=req.query
- db.query("select*from where menu=?",[menu],(err,results)=>{
+router.get("/itemList",(req,res)=>{
+const {menu}=req.query
+ db.query("select*from item where menu=?",[menu],(err,results)=>{
     if (err) {
         console.error('Database query error: ', err);
         res.status(500).send('Internal Server Error');
@@ -54,7 +54,8 @@ const menu=req.query
     }
 
     if (results.length > 0) {
-        res.send({ status: 200, data:results });
+        res.send({ status: 200, results });
+
     } else {
         res.status(401).send('Invalid credentials');
     }
