@@ -21,7 +21,7 @@ router.post('/login',(req,res)=>{
 
       if (results.length > 0) {
           req.session.user = results[0]; // 세션에 사용자 정보 저장
-          res.send({ status: 200, sessionId: req.sessionID });
+          res.send({ status: 200, sessionId: req.session.user.id });
       } else {
           res.status(401).send('Invalid credentials');
       }
@@ -54,11 +54,36 @@ const {menu}=req.query
     }
 
     if (results.length > 0) {
+        results = results.map(item => ({
+            ...item,
+            img: `/public/${item.img}`
+        }));
         res.send({ status: 200, results });
 
     } else {
         res.status(401).send('Invalid credentials');
     }
  })
+})
+router.post("/putBasket",(req,res)=>{
+    const user=req.body.user;
+    const menu=req.body.menu;
+    db.query("insert into basket(user,menu) values (?,?)",[user,menu],(err,results)=>{
+        if(err){
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        else if(results){
+            res.status(200).send('success');
+        }else {
+            res.status(401).send('Invalid credentials');
+        }
+    })
+})
+router.get("/getBasket",(req,res)=>{
+    const {user}=req.query;
+    db.query("select*from basket where user=?",[user],(err,basket)=>{
+        res.send(basket);
+    })
 })
 module.exports=router;

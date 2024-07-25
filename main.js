@@ -31,7 +31,7 @@ app.use(session({
     saveUninitialized : true,
     store : sessionStore
  }));
-
+ app.use('/public', express.static('public'));
 // body 파서 모듈 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -40,7 +40,6 @@ app.use(bodyParser.json());
 
 app.use('/user',userRouter);
 
-app.use(express.static('public'));
 
   
 app.listen(3001, () => console.log('Example app listening on port 3001'))  
