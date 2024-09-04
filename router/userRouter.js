@@ -65,6 +65,13 @@ const {menu}=req.query
     }
  })
 })
+router.get("/item",(req,res)=>{
+    const {num}=req.query
+    db.query("select*from item where num=?",[num],(err,item)=>{
+    res.send(item)
+
+    })
+})
 router.post("/putBasket",(req,res)=>{
     const user=req.body.user;
     const menu=req.body.menu;
