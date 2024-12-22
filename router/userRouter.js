@@ -44,6 +44,12 @@ router.post("/join",(req,res)=>{
         }
     })
 })
+router.get("/itemAll",(req,res)=>{
+    db.query("select*from item",(err,results)=>{
+        res.send(results)
+    })
+})
+
 router.get("/itemList",(req,res)=>{
 const {menu}=req.query
  db.query("select*from item where menu=?",[menu],(err,results)=>{
@@ -91,6 +97,17 @@ router.get("/getBasket",(req,res)=>{
     const {user}=req.query;
     db.query("select*from basket where user=?",[user],(err,basket)=>{
         res.send(basket);
+    })
+})
+router.get("/getCategory",(req,res)=>{
+    db.query("select*from category",(err,results)=>{
+        res.send(results);
+    })
+})
+router.get("/getCategoryitem",(req,res)=>{
+    const {num}=req.query;
+    db.query("select*from category where cnum=?",[num],(err,results)=>{
+        res.send(results)
     })
 })
 module.exports=router;
