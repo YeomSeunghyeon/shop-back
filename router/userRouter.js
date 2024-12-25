@@ -110,4 +110,15 @@ router.get("/getCategoryitem",(req,res)=>{
         res.send(results)
     })
 })
+router.get("/getNoteAll",(req,res)=>{
+    db.query("select*from note",(err,results)=>{
+        res.send(results);
+    })
+})
+router.get("/getNote",(req,res)=>{
+    const{num}=req.query;
+    db.query("select*from note where nnum=?",[num],(err,results)=>{
+        res.send(results);
+    })
+})
 module.exports=router;
