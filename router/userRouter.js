@@ -31,8 +31,9 @@ router.post("/join",(req,res)=>{
     const pwd=req.body.pwd
     const name=req.body.name
     const tel=req.body.tel
+    const address=req.body.address
     const is_admin=req.body.is_admin
-    db.query("insert into user values (?,?,?,?,?)",[id,pwd,name,tel,is_admin],(err,results)=>{
+    db.query("insert into user values (?,?,?,?,?,?)",[id,pwd,name,tel,address,is_admin],(err,results)=>{
         if(err){
             res.status(500).send('Internal Server Error');
             return;
@@ -118,6 +119,12 @@ router.get("/getNoteAll",(req,res)=>{
 router.get("/getNote",(req,res)=>{
     const{num}=req.query;
     db.query("select*from note where nnum=?",[num],(err,results)=>{
+        res.send(results);
+    })
+})
+router.get("/getUser",(req,res)=>{
+    const{id}=req.query;
+    db.query('select*from user where id=?',[id],(err,results)=>{
         res.send(results);
     })
 })
