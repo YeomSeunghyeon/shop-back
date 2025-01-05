@@ -128,4 +128,22 @@ router.get("/getUser",(req,res)=>{
         res.send(results);
     })
 })
+router.post("/EditUser",(req,res)=>{
+    const id=req.body.id
+    const password=req.body.password
+    const name=req.body.name
+    const tel=req.body.tel
+    const address=req.body.address
+    db.query("update user set password=?,name=?,tel=?,address=? where id=?",[password,name,tel,address,id],(err,results)=>{
+          if(err){
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        else if(results){
+            res.status(200).send('success');
+        }else {
+            res.status(401).send('Invalid credentials');
+        }
+    })
+});
 module.exports=router;
