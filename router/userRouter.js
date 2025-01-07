@@ -146,4 +146,23 @@ router.post("/EditUser",(req,res)=>{
         }
     })
 });
+router.get("/Favorites", (req, res) => {
+    const { id } = req.query;
+
+    const query = `
+        SELECT item.*
+        FROM favorites
+        JOIN item ON favorites.num = item.num
+        WHERE favorites.user = ?
+    `;
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Database query error");
+        }
+
+        // 결과 전송
+        res.send(results);
+    });
+});
 module.exports=router;
